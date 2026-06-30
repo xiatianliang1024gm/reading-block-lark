@@ -11,8 +11,9 @@ later" links and never get back to them. Instead of another list that grows
 forever, it turns your saved reading into real appointments with yourself.
 
 > This is the **Feishu (Lark)** edition. It books blocks on your Feishu calendar
-> through a tiny helper that runs on your own Mac and uses `lark-cli`. (The
-> original version of this project used Google Calendar.)
+> through a tiny helper that runs on your own Mac and uses `lark-cli`. If you
+> prefer Google Calendar, check out the
+> [Google Calendar version](https://github.com/zarazhangrui/reading-block).
 
 ---
 

@@ -6,7 +6,7 @@
 
 Reading Block 是一个 Chrome 扩展，适合经常把文章、视频、帖子存起来，却总是没时间看的用户。它不只是再给你一个越来越长的稍后阅读列表，而是把阅读真正放进你的日程里。
 
-> 这是 **飞书（Lark）版本**。它通过你 Mac 上运行的一个小 helper，把阅读时间预约到你的飞书日历里。helper 会使用你已经登录好的 `lark-cli`。
+> 这是 **飞书（Lark）日历版本**。它通过你 Mac 上运行的一个小 helper，把阅读时间预约到你的飞书日历里。helper 会使用你已经登录好的 `lark-cli`。如果你更想用 Google Calendar，可以查看 [Google Calendar 版本](https://github.com/zarazhangrui/reading-block)。
 
 ---
 
