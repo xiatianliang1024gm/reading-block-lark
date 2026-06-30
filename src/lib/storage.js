@@ -16,6 +16,7 @@ export const DEFAULT_SETTINGS = {
   windowStart: "14:00",
   windowEnd: "18:00",
   blockMinutes: 30,
+  minLeadMinutes: 120,
   batchSize: 5,
   lookaheadDays: 14, // search up to two weeks ahead for a free slot
   calendarId: "primary", // change to a TEST calendar id while testing

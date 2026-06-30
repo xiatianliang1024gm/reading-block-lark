@@ -10,6 +10,7 @@ const PREFS = {
   windowStart: "14:00",
   windowEnd: "18:00",
   blockMinutes: 30,
+  minLeadMinutes: 120,
   lookaheadDays: 14,
 };
 
@@ -55,10 +56,22 @@ test("if it's too late in the day, it goes to tomorrow", () => {
   assert.equal(slot.start.getTime(), dt(2026, 6, 2, 14, 0).getTime());
 });
 
-test("now sitting exactly at the window start books immediately", () => {
+test("now sitting exactly at the window start waits two hours", () => {
   const now = dt(2026, 6, 1, 14, 0);
   const slot = findNextFreeSlot([], PREFS, now);
-  assert.equal(slot.start.getTime(), dt(2026, 6, 1, 14, 0).getTime());
+  assert.equal(slot.start.getTime(), dt(2026, 6, 1, 16, 0).getTime());
+});
+
+test("a late-day save waits at least two hours, then rolls to tomorrow", () => {
+  const now = dt(2026, 6, 1, 17, 15);
+  const slot = findNextFreeSlot([], PREFS, now);
+  assert.equal(slot.start.getTime(), dt(2026, 6, 2, 14, 0).getTime());
+});
+
+test("inside the window, it uses the first slot at least two hours later", () => {
+  const now = dt(2026, 6, 1, 13, 15);
+  const slot = findNextFreeSlot([], PREFS, now);
+  assert.equal(slot.start.getTime(), dt(2026, 6, 1, 15, 15).getTime());
 });
 
 test("a day that already has a reading block is skipped (one per day)", () => {

@@ -57,6 +57,8 @@ export function localDateKey(value) {
  * @param {string}   prefs.windowStart "HH:MM" earliest the block may start.
  * @param {string}   prefs.windowEnd   "HH:MM" latest the block may END by.
  * @param {number}   prefs.blockMinutes  Length of the block in minutes.
+ * @param {number}   [prefs.minLeadMinutes=0] Minimum notice before a block may
+ *        start, counted from now.
  * @param {number}   prefs.lookaheadDays How many days ahead to search.
  * @param {Date|number|string} now     The current moment. Passed in (not read
  *        from the clock inside) so tests are deterministic.
@@ -67,6 +69,7 @@ export function localDateKey(value) {
  */
 export function findNextFreeSlot(busy, prefs, now, blockedDayKeys = new Set()) {
   const nowMs = toMs(now);
+  const earliestStartMs = nowMs + (prefs.minLeadMinutes || 0) * 60 * 1000;
   const blockMs = prefs.blockMinutes * 60 * 1000;
   const startPref = parseHHMM(prefs.windowStart);
   const endPref = parseHHMM(prefs.windowEnd);
@@ -96,8 +99,8 @@ export function findNextFreeSlot(busy, prefs, now, blockedDayKeys = new Set()) {
     const windowEndMs = atLocalTime(day, endPref).getTime();
 
     // A "cursor" that walks across the day's free time. It can't start before
-    // the window opens, and on today it can't start in the past.
-    let cursor = Math.max(windowStartMs, nowMs);
+    // the window opens or before the minimum notice period has passed.
+    let cursor = Math.max(windowStartMs, earliestStartMs);
 
     // If we've already missed this whole day's window, move on.
     if (cursor + blockMs > windowEndMs) continue;
