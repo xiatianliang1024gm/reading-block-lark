@@ -1,5 +1,7 @@
 # Reading Block (Lark version)
 
+[English](README.md) | [简体中文](README.zh-CN.md)
+
 **Save articles with one click. Every five saves, your browser books you a quiet
 30-minute reading block on your Feishu (Lark) calendar so you actually read
 them.**
@@ -36,7 +38,8 @@ It's simple on purpose. No account to create, no app to open, no list to manage.
   "Saved" confirmation appears in the corner of the page, with an **Undo**.
 - **Automatic scheduling.** Every five saves, it finds the next free slot inside
   your preferred days and hours and books a 30-minute reading block, with the
-  five links in the event notes. At most one block per day.
+  five links in the event notes. It only books at least two hours from now, and
+  at most one block per day.
 - **A reading dashboard.** Right-click the icon to open a full page with your
   reading list (open, mark read, delete) and your settings.
 - **End-of-block check-in.** When a block ends, a little checklist pops up. Tick
