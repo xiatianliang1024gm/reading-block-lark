@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <!-- A unique name macOS uses to refer to this background job. -->
+    <key>Label</key>
+    <string>com.readingblock.helper</string>
+
+    <!-- The exact program to run: node, then the helper script.
+         Each item is a separate argument, so spaces in the path are fine. -->
+    <key>ProgramArguments</key>
+    <array>
+        <string>/absolute/path/to/node</string>
+        <string>/absolute/path/to/reading-block-lark/helper/server.js</string>
+    </array>
+
+    <!-- A LaunchAgent starts with almost no environment, so we spell out where
+         node and lark-cli live (lark-cli's "#!/usr/bin/env node" needs node on
+         PATH), and point the helper straight at lark-cli to be safe. -->
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PATH</key>
+        <string>/absolute/path/to/node-folder:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin</string>
+        <key>LARK_CLI</key>
+        <string>/absolute/path/to/lark-cli</string>
+    </dict>
+
+    <!-- Run the helper folder as the working directory. -->
+    <key>WorkingDirectory</key>
+    <string>/absolute/path/to/reading-block-lark/helper</string>
+
+    <!-- Start as soon as you log in (covers boot and turning the Mac on). -->
+    <key>RunAtLoad</key>
+    <true/>
+
+    <!-- Keep it alive: if it ever stops or crashes, macOS restarts it. Sleep
+         doesn't stop it; this just guarantees it's always back up. -->
+    <key>KeepAlive</key>
+    <true/>
+
+    <!-- Where the helper's normal output and errors get written, so we can
+         look if anything ever goes wrong. -->
+    <key>StandardOutPath</key>
+    <string>/absolute/path/to/reading-block-helper.log</string>
+    <key>StandardErrorPath</key>
+    <string>/absolute/path/to/reading-block-helper.log</string>
+</dict>
+</plist>
