@@ -6,6 +6,8 @@
 30-minute reading block on your Feishu (Lark) calendar so you actually read
 them.**
 
+📺 [Watch the demo video (2 minutes)](https://www.youtube.com/watch?v=Q8g1hod552g)
+
 Reading Block is a Chrome extension for people who save a lot of "I'll read this
 later" links and never get back to them. Instead of another list that grows
 forever, it turns your saved reading into real appointments with yourself.
