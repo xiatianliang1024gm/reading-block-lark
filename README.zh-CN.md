@@ -8,7 +8,7 @@
 
 Reading Block 是一个 Chrome 扩展，适合经常把文章、视频、帖子存起来，却总是没时间看的用户。它不只是再给你一个越来越长的稍后阅读列表，而是把阅读真正放进你的日程里。
 
-> 这是 **飞书（Lark）日历版本**。它通过你 Mac 上运行的一个小 helper，把阅读时间预约到你的飞书日历里。helper 会使用你已经登录好的 `lark-cli`。如果你更想用 Google Calendar，可以查看 [Google Calendar 版本](https://github.com/zarazhangrui/reading-block)。
+> 这是 **飞书（Lark）日历版本**。它通过你自己的 Mac 或 Windows 电脑上运行的一个小 helper，把阅读时间预约到你的飞书日历里。helper 会使用你已经登录好的 `lark-cli`。如果你更想用 Google Calendar，可以查看 [Google Calendar 版本](https://github.com/zarazhangrui/reading-block)。
 
 ---
 
@@ -33,13 +33,13 @@ Reading Block 补上了这一步：它帮你预约阅读时间。保存 5 个东
 - **阅读列表页面。** 右键点击扩展图标，可以打开完整列表页面，查看、打开、标记已读或删除链接，也可以调整设置。
 - **阅读结束后的回顾。** 阅读时间结束后，会弹出一个小清单，让你勾选读完了哪些。没读完的内容会继续留到下一轮。
 
-你的阅读列表只保存在浏览器本地。没有云端服务器，也不需要注册。它唯一会连接的是你自己 Mac 上的小 helper，再由 helper 使用你的飞书日历。
+你的阅读列表只保存在浏览器本地。没有云端服务器，也不需要注册。它唯一会连接的是你自己电脑上的小 helper，再由 helper 使用你的飞书日历。
 
 ---
 
 ## 安装
 
-安装分两部分：先让 Mac 上的 helper 跑起来，再把扩展加载到 Chrome。
+安装分两部分：先让你电脑上的 helper 跑起来，再把扩展加载到 Chrome。
 
 完整步骤请看 [SETUP.md](SETUP.md)，里面写得更细，适合不熟悉技术设置的人跟着做。
 
@@ -50,6 +50,13 @@ Reading Block 补上了这一步：它帮你预约阅读时间。保存 5 个东
 3. **加载 Chrome 扩展。** 打开 Chrome 的 `chrome://extensions`，开启 **Developer mode**，点击 **Load unpacked**，选择这个项目文件夹。
 
 不需要飞书开发者后台配置，也不需要创建 OAuth client。
+
+### Windows 说明
+
+- 现在支持 Windows。
+- 如果你在 Windows 上通过 pnpm 安装 `lark-cli`，请把 `LARK_CLI` 指向 `.cmd`
+  shim，例如 `C:\Users\you\AppData\Local\pnpm\bin\lark-cli.cmd`。
+- helper 会正确解析这个 Windows shim，并调用真正的 `lark-cli` 入口，不会破坏 JSON 参数。
 
 ---
 
@@ -66,7 +73,7 @@ Reading Block 补上了这一步：它帮你预约阅读时间。保存 5 个东
 ## 隐私
 
 - 阅读列表只保存在你的浏览器本地。
-- 扩展只会连接你 Mac 上的本地 helper。
+- 扩展只会连接你自己电脑上的本地 helper。
 - helper 只会通过你自己的 `lark-cli` 登录访问你的飞书日历。
 - helper 会拒绝普通网页的请求，避免其他网站通过它创建日程。
 - 没有分析统计，没有云端服务器，也没有第三方数据服务。

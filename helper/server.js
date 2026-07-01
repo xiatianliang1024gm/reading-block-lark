@@ -23,6 +23,8 @@
 
 import http from "node:http";
 import { execFile } from "node:child_process";
+import fs from "node:fs";
+import path from "node:path";
 
 // The private phone line. 127.0.0.1 means "this machine only" — no other
 // computer on your network (or the internet) can reach it.
@@ -32,6 +34,36 @@ const PORT = 8787;
 // Where to find lark-cli. It's normally on your PATH, so just "lark-cli" works.
 // You can override it by setting the LARK_CLI environment variable if needed.
 const LARK_CLI = process.env.LARK_CLI || "lark-cli";
+
+function getLarkExecutable() {
+  if (process.platform !== "win32") return LARK_CLI;
+  if (path.extname(LARK_CLI)) return LARK_CLI;
+  return `${LARK_CLI}.cmd`;
+}
+
+function resolveWindowsShim(command) {
+  if (process.platform !== "win32") return null;
+  if (![".cmd", ".bat"].includes(path.extname(command).toLowerCase())) return null;
+  if (!fs.existsSync(command)) return null;
+
+  const content = fs.readFileSync(command, "utf8");
+  const match = content.match(/"(%~dp0[^"]+?\.js)"/i);
+  if (!match) return null;
+
+  const scriptPath = match[1]
+    .replace(/%~dp0/gi, `${path.dirname(command)}\\`)
+    .replace(/\\/g, path.sep);
+  return path.resolve(scriptPath);
+}
+
+function runCommand(command, args, callback) {
+  const shimTarget = resolveWindowsShim(command);
+  if (shimTarget) {
+    execFile(process.execPath, [shimTarget, ...args], { maxBuffer: 10 * 1024 * 1024 }, callback);
+    return;
+  }
+  execFile(command, args, { maxBuffer: 10 * 1024 * 1024 }, callback);
+}
 
 // ---------------------------------------------------------------------------
 // Talking to lark-cli
@@ -47,11 +79,22 @@ function lark(args) {
   return new Promise((resolve, reject) => {
     // Every call runs as the logged-in user and asks for machine-readable JSON.
     const fullArgs = [...args, "--as", "user", "--format", "json"];
-    execFile(
-      LARK_CLI,
+    const larkExecutable = getLarkExecutable();
+    runCommand(
+      larkExecutable,
       fullArgs,
-      { maxBuffer: 10 * 1024 * 1024 }, // allow up to 10MB of output (calendars can be chatty)
       (err, stdout, stderr) => {
+        if (err?.code === "ENOENT") {
+          const pathValue = process.env.PATH || "(empty)";
+          reject(
+            new Error(
+              `lark-cli not found: "${larkExecutable}" (from LARK_CLI="${LARK_CLI}"). PATH=${pathValue}. ` +
+                `If it works in Terminal but not here, start the helper from the same shell ` +
+                `or set LARK_CLI and PATH explicitly in your launch agent.`
+            )
+          );
+          return;
+        }
         // execFile errors when lark-cli exits non-zero. Surface a useful message.
         if (err && !stdout) {
           reject(new Error(`lark-cli failed: ${stderr || err.message}`));

@@ -13,7 +13,7 @@ later" links and never get back to them. Instead of another list that grows
 forever, it turns your saved reading into real appointments with yourself.
 
 > This is the **Feishu (Lark)** edition. It books blocks on your Feishu calendar
-> through a tiny helper that runs on your own Mac and uses `lark-cli`. If you
+> through a tiny helper that runs on your own Mac or Windows PC and uses `lark-cli`. If you
 > prefer Google Calendar, check out the
 > [Google Calendar version](https://github.com/zarazhangrui/reading-block).
 
@@ -49,12 +49,12 @@ It's simple on purpose. No account to create, no app to open, no list to manage.
   what you finished; anything left over goes back into your list for next time.
 
 Your reading list lives **locally in your browser**. There's no cloud server and
-no sign-up. The only thing it talks to is the small helper on your own Mac, which
-in turn talks to your own Feishu calendar.
+no sign-up. The only thing it talks to is the small helper on your own computer,
+which in turn talks to your own Feishu calendar.
 
 ## Setup
 
-Two halves: get the helper running on your Mac, then load the extension into
+Two halves: get the helper running on your computer, then load the extension into
 Chrome. **Full step-by-step instructions are in [SETUP.md](SETUP.md)** and are
 written for non-technical readers.
 
@@ -68,6 +68,14 @@ The short version:
    **Developer mode**, click **Load unpacked**, and select this project folder.
 
 That's it. No Feishu developer console clicks, no OAuth client to create.
+
+### Windows note
+
+- Windows is supported.
+- If you install `lark-cli` with pnpm on Windows, point `LARK_CLI` to the `.cmd`
+  shim, for example `C:\Users\you\AppData\Local\pnpm\bin\lark-cli.cmd`.
+- The helper resolves that Windows shim and calls the real `lark-cli` entrypoint
+  without breaking JSON arguments.
 
 ---
 
@@ -88,7 +96,7 @@ That's it. No Feishu developer console clicks, no OAuth client to create.
 ## Privacy
 
 - Your reading list never leaves your browser; it's stored locally.
-- The extension only talks to the helper on your own Mac (over localhost). The
+- The extension only talks to the helper on your own computer (over localhost). The
   helper only talks to your own Feishu account, through your own `lark-cli`
   login.
 - The helper refuses requests from normal websites — only the Reading Block
