@@ -9,8 +9,9 @@ There are three small parts:
 - **Part B** starts the little helper on your Mac.
 - **Part C** loads the extension into Chrome.
 
-Nothing here involves a Feishu developer console or any OAuth client. The helper
-reuses the Feishu login that `lark-cli` already has.
+The extension itself needs no Feishu console setup and no OAuth client to paste
+in. The one-time app setup is part of `lark-cli`'s own onboarding (Part A below),
+and the helper simply reuses the login `lark-cli` already has.
 
 ---
 
@@ -18,23 +19,42 @@ reuses the Feishu login that `lark-cli` already has.
 
 - A Mac with **Node.js** installed. (Check by opening the **Terminal** app and
   typing `node --version`. If you see a version number like `v24.x`, you're set.)
-- `lark-cli` installed and logged in to your Feishu account. (Check with
-  `lark-cli --version`.)
+- `lark-cli` set up: installed, connected to a Feishu app, and logged in to your
+  Feishu account with calendar permissions. (Check with `lark-cli --version`.)
 
-If `lark-cli` isn't installed, install it with:
+**Already use `lark-cli` for calendars?** You've done all of this, skip to Part A.
+Just make sure your app has the calendar scopes listed in step 3; if a command
+later complains about permissions, it returns a link to enable them.
 
-```
-npm install -g @larksuite/cli
-```
+**New to `lark-cli`?** It's a general-purpose Feishu command-line tool, and this
+is its normal one-time setup (nothing here is specific to Reading Block):
 
-Then log it in to your Feishu account (this opens a Feishu authorization link):
+1. **Install it:**
 
-```
-lark-cli auth login --scope "calendar:calendar.event:create calendar:calendar.event:read calendar:calendar.event:update calendar:calendar.event:delete calendar:calendar.free_busy:read calendar:calendar:readonly"
-```
+   ```
+   npm install -g @larksuite/cli
+   ```
 
-Follow the link, approve, and you're authenticated. (If you already use `lark-cli`
-for calendars, you can skip this entirely.)
+2. **Connect it to a Feishu app.** `lark-cli` talks to Feishu through a "custom
+   app" that you own. This step creates or links one and stores its App ID and
+   App Secret locally on your Mac:
+
+   ```
+   lark-cli config init
+   ```
+
+   Add `--new` (`lark-cli config init --new`) to have it walk you through
+   creating a brand-new app in the browser. Your App Secret is stored locally
+   (in your Mac's keychain); never share it or paste it into a chat.
+
+3. **Authorize your account with the calendar permissions Reading Block needs**
+   (this opens a Feishu approval link):
+
+   ```
+   lark-cli auth login --scope "calendar:calendar.event:create calendar:calendar.event:read calendar:calendar.event:update calendar:calendar.event:delete calendar:calendar.free_busy:read calendar:calendar:readonly"
+   ```
+
+   Follow the link, approve, and you're authenticated.
 
 ---
 
